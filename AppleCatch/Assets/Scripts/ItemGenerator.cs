@@ -9,14 +9,24 @@ public class ItemGenerator : MonoBehaviour
     //생성하기 위해서 Prefab이 필요함 
     public GameObject applePrefab;
     public GameObject bombPrefab;
+
+    private bool isStart = false;
     void Start()
     {
         
     }
 
+    public void StartGenerate()
+    {
+        this.isStart = true;
+        Debug.Log("StartGenerate");
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (this.isStart == false) return;
+
         //시간 재기 
         //변수에 Time.deltaTime더해라 
         this.elasedTime += Time.deltaTime;

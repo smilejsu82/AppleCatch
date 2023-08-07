@@ -12,9 +12,23 @@ public class BasketController : MonoBehaviour
     [SerializeField]
     private GameDirector gameDirector;
 
+    private void Awake()
+    {
+
+    }
+
+    public void Init()
+    {
+        GameObject gameDirectorGo = GameObject.Find("GameDirector");
+        this.gameDirector = gameDirectorGo.GetComponent<GameDirector>();
+        Debug.LogFormat("Awake: {0}", gameDirectorGo);
+        this.audioSource = this.GetComponent<AudioSource>();
+        Debug.LogFormat("Awake: {0}", audioSource);
+    }
+
     void Start()
     {
-        this.audioSource = this.GetComponent<AudioSource>();
+        
     }
 
     // Update is called once per frame
@@ -59,18 +73,26 @@ public class BasketController : MonoBehaviour
         if (other.tag == "apple") 
         {
             Debug.Log("µæÁ¡");
+
+            Debug.LogFormat("audioSource: {0}", this.audioSource);
+            Debug.LogFormat("appleSfx: {0}", this.appleSfx);
+
             this.audioSource.PlayOneShot(this.appleSfx);
             this.gameDirector.IncreaseScore(100);
+            this.gameDirector.UpdateScoreUI();
+            Destroy(other.gameObject);  //»ç°ú¶Ç´Â ÆøÅºÀ» Á¦°Å 
         }
-        else 
+        else if(other.tag == "bomb")
         {
             Debug.Log("°¨Á¡");
+            Debug.LogFormat("audioSource: {0}", this.audioSource);
+            Debug.LogFormat("bombSfx: {0}", this.bombSfx);
+
             this.audioSource.PlayOneShot(this.bombSfx);
             this.gameDirector.DecreaseScore(50);
+            this.gameDirector.UpdateScoreUI();
+            Destroy(other.gameObject);  //»ç°ú¶Ç´Â ÆøÅºÀ» Á¦°Å 
         }
-
-        this.gameDirector.UpdateScoreUI();
-
-        Destroy(other.gameObject);  //»ç°ú¶Ç´Â ÆøÅºÀ» Á¦°Å 
+        
     }
 }
